@@ -1,0 +1,1 @@
+print('The best thing on earth is danger.')
