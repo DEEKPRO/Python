@@ -1,5 +1,5 @@
 import random
-from colorama import inti, Fore, Style
+from colorama import init, Fore, Style
 init(autoreset=True)
 
 def display_board(board):
