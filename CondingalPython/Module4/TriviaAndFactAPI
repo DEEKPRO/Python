@@ -1,8 +1,9 @@
 import requests
 import random
 import html
+import time
 
-API_URL = f"https://opentdb.com/api.php?amount=10&difficulty=easy&type=boolean"
+API_URL = f"https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple"
 
 def get_questions():
     response = requests.get(API_URL)
@@ -29,6 +30,7 @@ def run_quiz():
         random.shuffle(options)
 
         print(f"Question {i}: {question}")
+        time.sleep(5)
         for idx, option in enumerate(options, 1):
             print(f"{idx}. {option}")
         
