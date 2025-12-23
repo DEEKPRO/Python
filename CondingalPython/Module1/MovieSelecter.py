@@ -5,10 +5,15 @@ from textblob import *
 from colorama import init, Fore
 import time
 import sys
+import kagglehub
 
+# Download latest version
+path = kagglehub.dataset_download("harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows")
+
+print("Path to dataset files:", path)
 init(autoreset=True)
 
-def load_data(file_path='imdb_top_1000.csv'):
+def load_data(file_path=path):
     try:
         df = pd.read_csv(file_path)
         df['combined_features'] = df['Genre'].fillna('') + ' ' + df['Overview'].fillna('')
