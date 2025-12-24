@@ -19,7 +19,6 @@ if option == 'rgb':
     rgb()
 elif option == 'gray':
     gray()
-elif
 cropped_image = image[100:300, 200:400]
 cropped_rgb = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB)
 plt.imshow(cropped_rgb)
