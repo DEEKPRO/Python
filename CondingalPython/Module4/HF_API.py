@@ -1,8 +1,8 @@
 import requests
+from config import api
 # Label 0 is Negative
 # Label 1 is Neutral
 # Label 2 is Positive
-api = "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"
 def classify_text(text):
     api_url = 'https://router.huggingface.co/hf-inference/models/cardiffnlp/twitter-roberta-base-sentiment'
     header = {"Authorization":f"Bearer {api}"}
