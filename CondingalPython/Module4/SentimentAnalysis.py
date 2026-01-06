@@ -1,6 +1,6 @@
 import requests
 
-api_url = "https://router.huggingface.co/models/distilbert-base-uncased"
+api_url = "https://router.huggingface.co/hf-inference/models/soBeauty/distilbert-base-uncased-Auto_Train"
 
 headers = {
     "Authorization":"Bearer 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"

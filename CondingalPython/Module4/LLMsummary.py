@@ -1,0 +1,21 @@
+import os
+from huggingface_hub import InferenceClient
+import time
+
+client = InferenceClient(
+    model="google/pegasus-xsum",
+    api_key= "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"
+)
+
+text_to_summarize = input("Code for Summary: \n")
+"""
+The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France.
+It is named after the engineer Gustave Eiffel, whose company designed and built the tower.
+Constructed from 1887 to 1889 as the centerpiece of the 1889 World's Fair, it was initially
+criticized by some of France's leading artists and intellectuals for its design, but it
+has become a global cultural icon of France and one of the most recognizable structures in the
+world.
+"""
+
+summary = client.summarization(text_to_summarize)
+print(f"\nSummary: {summary.summary_text}")

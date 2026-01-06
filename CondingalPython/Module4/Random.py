@@ -42,4 +42,4 @@ image = pipe(
     generator=torch.Generator(device="cuda").manual_seed(42)
 ).images[0]
 
-image.save("example.png")
+image.save("ai_image.png")
