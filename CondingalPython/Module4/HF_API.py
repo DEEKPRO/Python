@@ -1,5 +1,5 @@
 import requests
-from config import api
+from Python.CondingalPython.config import api
 # Label 0 is Negative
 # Label 1 is Neutral
 # Label 2 is Positive
