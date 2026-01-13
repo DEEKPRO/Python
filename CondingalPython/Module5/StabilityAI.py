@@ -35,7 +35,7 @@ def main():
             image = generate_image_from_text(prompt)
             image.show()
 
-            save_option = input("Do you want ot save this image? (yes/no): ").strip().lower()
+            save_option = input("Do you want to save this image? (yes/no): ").strip().lower()
             if save_option == "yes":
                 file_name = input("Enter a name for the image file (without extension): ").strip() or "generated_image"
                 file_name = "".join(c for c in file_name if c.isalnum() or c in ('_','-')).rstrip()
