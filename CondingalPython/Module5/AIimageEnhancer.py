@@ -26,6 +26,23 @@ def post_process_image(image):
     soft_focus_image = contrast_image.filter(ImageFilter.GaussianBlur(radius=2))
 
     return soft_focus_image
+def light(image):
+    light_enhance = ImageEnhance.Brightness(image)
+    light_image = light_enhance.enhance(4.2)
+    light_enhance = ImageEnhance.Contrast(light_image)
+    contrast_image = light_enhance.enhance(2.3)
+
+    soft_focus_image = contrast_image.filter(ImageFilter.GaussianBlur(radius=1))
+    return soft_focus_image
+
+def dark(image):
+    dark_enhance = ImageEnhance.Brightness(image)
+    dark_image = dark_enhance.enhance(0.2)
+    dark_enhance = ImageEnhance.Contrast(dark_image)
+    dark_contrast = dark_enhance.enhance(6.3)
+
+    soft_focus_image = dark_contrast.filter(ImageFilter.GaussianBlur(radius=0.5))
+    return soft_focus_image
 
 def main():
     print("Welcome to the Post-Processing Magic Workshop!")
@@ -43,11 +60,17 @@ def main():
             print("Appliying post-processing effects... \n")
             processed_image = post_process_image(image)
             processed_image.show()
+            light_image = light(image)
+            dark_image = dark(image)
+            light_image.show()
+            dark_image.show()
 
             save_option = input("Do u want to save the processed image? (yes/no):")
             if save_option == 'yes':
                 file_name = input("Enter a name for the image (without extention): ").strip()
                 processed_image.save(f"{file_name}.png")
+                light_image.save(f"{file_name}_light.png")
+                dark_image.save(f"{file_name}_dark.png")
                 print(f"Image saved as {file_name}.png\n")
             print("-"*80+"\n")
         except Exception as e:
