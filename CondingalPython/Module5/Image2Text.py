@@ -52,9 +52,11 @@ if choice == "1":
 elif choice == "2":
     description = b(g, max_new_tokens=60)
     print(truncate(description, 30))
+    print(description.replace(""," "))
 elif choice =="3":
     description = b(g, max_new_tokens=70)
     print(truncate(description, 50))
+    print(description.replace(""," "))
 else:
     exit()
     
