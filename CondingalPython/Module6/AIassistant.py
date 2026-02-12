@@ -4,7 +4,7 @@ from vosk import Model, KaldiRecognizer
 import pyttsx3
 import json
 import datetime
-model_name = "vosk-model-en-us-0.42-gigaspeech"
+model_name = "vosk-model-small-en-us-0.15"
 model = Model(model_name)
 recognizer = KaldiRecognizer(model, 16000)
 audio_queue = queue.Queue()
