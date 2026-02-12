@@ -1,0 +1,45 @@
+import queue
+import sounddevice as sd
+from vosk import Model, KaldiRecognizer
+import pyttsx3
+import json
+import datetime
+model_name = "vosk-model-en-us-0.42-gigaspeech"
+model = Model(model_name)
+recognizer = KaldiRecognizer(model, 16000)
+audio_queue = queue.Queue()
+tts_engine = pyttsx3.init()
+
+def speak(text):
+    print("Assistant:", text)
+    tts_engine.say(text)
+    tts_engine.runAndWait()
+
+def callback(indata, frames, time, status):
+    if status:
+        print(status)
+    audio_queue.put(bytes(indata))
+
+def process_query(query):
+    query = query.lower()
+    if 'time' in query:
+        now = datetime.datetime.now().strftime('%H:%M')
+        response = f"The current time is {now}."
+    elif 'date' in query:
+        today = datetime.datetime.now().strftime('%B %d, %Y')
+        response = f"Today's date is {today}."
+    else:
+        response = "I'm sorry, I didn't understand that."
+    
+    return response
+
+with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16', channels=1, callback='callback'):
+    print("Listenting... Press Ctrl+C to stop.")
+    while True:
+        data = audio_queue.get()
+        if recognizer.AcceptWaveform(data):
+            result = json.loads(recognizer.Result())
+            text = result.get("text", "")
+            if text:
+                print("You said:", text)
+                answer = process_query(text)

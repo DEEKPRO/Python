@@ -10,11 +10,7 @@ def speak(text, language="en"):
     engine.setProperty('rate', 150)
     voices = engine.getProperty('voices')
 
-    if language == 'en':
-        engine.setProperty('voices', voices[0].id)
-    
-    else:
-        engine.setProperty('voice', voices[1].id)
+    language = c_n
     
     engine.say(text)
     engine.runAndWait()
