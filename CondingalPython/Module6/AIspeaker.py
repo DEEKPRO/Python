@@ -1,15 +1,19 @@
 import speech_recognition as sr
 import pyttsx3
 from googletrans import Translator
+import time
 
 print("Welcome to the AI translator🏁")
 print("Type 'exit' to exit the program.")
 c_n = ""
-def speak(text, language="en"):
+def speak(text, language):
     engine = pyttsx3.init()
     engine.setProperty('rate', 150)
     voices = engine.getProperty('voices')
-
+    if language == "en":
+        engine.setProperty("voice", voices[0].id)
+    else: 
+        engine.setProperty("voice", voices[1].id)
     language = c_n
     
     engine.say(text)
@@ -37,7 +41,7 @@ def speech_to_text():
     
     return ''
 
-def translate_text(text, target_language="es"):
+def translate_text(text, target_language="en"):
     translator = Translator()
     translation = translator.translate(text, dest=target_language)
     print(f"?????? Translated text: {translation.text}")
@@ -67,7 +71,7 @@ def display_language_section():
     }
     c_n = choice
     c_n = language_dict[c_n]
-    return language_dict.get(choice, "es")
+    return language_dict.get(choice, "en")
 
 def main():
     target_language = display_language_section()
@@ -83,5 +87,6 @@ def main():
 while True:
     main()
     o = input("").lower()
+    time.sleep(5)
     if o == 'exit':
         break
