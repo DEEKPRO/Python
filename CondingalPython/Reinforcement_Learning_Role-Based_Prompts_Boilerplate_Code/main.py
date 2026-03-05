@@ -19,7 +19,7 @@ def reinforcement():
         rating = 3
     
     feedback = input("Provide feedback for improvement: ").strip()
-    improved_response = f"{initial_response} (Improved with your feedback: {feedback})"
+    improved_response = generate_response(prompt+feedback, temperature=0.7, max_tokens=1024)
     print(f"\nImproved AI Response: {improved_response}")
 
     print("\nReflection")
