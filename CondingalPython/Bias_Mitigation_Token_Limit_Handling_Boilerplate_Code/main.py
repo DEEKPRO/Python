@@ -7,10 +7,11 @@ def bias_mitigation():
         print("Please enter a prompt to run the activity.")
         return
     
-    initial_response = generate_response(prompt, temperature=0.3, max_tokens=1024)
+    initial_response = generate_response(prompt, temperature=0.7, max_tokens=1024)
     print(f"Initial AI response: {initial_response}")
 
     modified_prompt = input("Modify the prompt to make it more neutral (e.g., 'Describe the qualities of a doctor'): ").strip()
+    modified_prompt = modified_prompt + "Make it as neutral as possible"
     if modified_prompt:
         modified_response = generate_response(modified_prompt, temperature=0.3, max_tokens=1024)
         print(f"\nModified AI response (neutral): {modified_response}")  
@@ -39,8 +40,10 @@ def run():
     print("Choose and activity: ")
     print("1) Bias Mitigation")
     print("2) Token Limits")
-    choice = int(input("> "))
-
+    try:    
+        choice = int(input("> "))
+    except ValueError:
+        print("ValueError")
     if choice == 1:
         bias_mitigation()
     elif choice == 2:
