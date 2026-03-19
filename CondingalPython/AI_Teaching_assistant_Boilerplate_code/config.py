@@ -1,2 +1,5 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
 GROQ_API_KEY = "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"
 HF_API_KEY = "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"
