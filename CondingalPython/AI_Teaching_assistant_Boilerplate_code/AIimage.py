@@ -60,92 +60,82 @@ def gen_image(prompt:str):
 def main():
     st.set_page_config(page_title="Safe AI Image Generator", layout="centered")
 
-st.title("🖼️ Safe AI Image Generator")
+    st.title("🖼️ Safe AI Image Generator")
 
-st.info("Flow: Enter a prompt → enhance it → check it using the deployed safety API → generate the image.")
+    st.info("Flow: Enter a prompt → enhance it → check it using the deployed safety API → generate the image.")
 
-with st.form("image_form"):
+    with st.form("image_form"):
 
-raw = st.text_area(
+        raw = st.text_area(
+        "Image Description",
+        height=120,
+        placeholder="Example: A cozy cabin in snowy mountains at sunrise, cinematic lighting",
+        )
 
-"Image Description",
+    submit = st.form_submit_button("Generate Image")
 
-height=120,
+    if submit:
 
-placeholder="Example: A cozy cabin in snowy mountains at sunrise, cinematic lighting",
+        raw = raw.strip()
 
-)
+    if not raw:
 
-submit = st.form_submit_button("Generate Image")
+        st.warning("⚠️ Please enter an image description.")
 
-if submit:
+        return
 
-raw = raw.strip()
+    raw_check = check_prompt_with_filter_api(raw)
 
-if not raw:
+    if not raw_check.get("ok"):
 
-st.warning("⚠️ Please enter an image description.")
+        st.error(f"⚠️ Prompt blocked. {raw_check.get('reason', 'Unsafe prompt')}")
 
-return
+        return
 
-raw_check = check_prompt_with_filter_api(raw)
+    with st.spinner("Enhancing your prompt..."):
 
-if not raw_check.get("ok"):
+        final_prompt = enhance_prompt(raw)
 
-st.error(f"⚠️ Prompt blocked. {raw_check.get('reason', 'Unsafe prompt')}")
+        enhanced_check = check_prompt_with_filter_api(final_prompt)
 
-return
+    if not enhanced_check.get("ok"):
 
-with st.spinner("Enhancing your prompt..."):
+        st.error(f"⚠️ Enhanced prompt blocked. {enhanced_check.get('reason', 'Unsafe prompt')}")
 
-final_prompt = enhance_prompt(raw)
+        return
 
-enhanced_check = check_prompt_with_filter_api(final_prompt)
+    st.markdown("#### Enhanced Prompt")
 
-if not enhanced_check.get("ok"):
+    st.code(final_prompt)
 
-st.error(f"⚠️ Enhanced prompt blocked. {enhanced_check.get('reason', 'Unsafe prompt')}")
+    with st.spinner("Generating image..."):
 
-return
+        img, err = gen_image(final_prompt)
 
-st.markdown("#### Enhanced Prompt")
+        if err:
 
-st.code(final_prompt)
+            st.error(err)
 
-with st.spinner("Generating image..."):
+        return
 
-img, err = gen_image(final_prompt)
+    st.image(img, caption="Generated Image", use_container_width=True)
 
-if err:
+    st.session_state.generated_image = img
 
-st.error(err)
+    img = st.session_state.get("generated_image")
 
-return
+    if img:
 
-st.image(img, caption="Generated Image", use_container_width=True)
+        buf = BytesIO()
 
-st.session_state.generated_image = img
+        img.save(buf, format="PNG")
 
-img = st.session_state.get("generated_image")
+        st.download_button(
 
-if img:
-
-buf = BytesIO()
-
-img.save(buf, format="PNG")
-
-st.download_button(
-
-"📥 Download Image",
-
-buf.getvalue(),
-
-"ai_generated_image.png",
-
-"image/png",
-
-)
-
-if __name__ == "__main__":
+            "📥 Download Image",
+            buf.getvalue(),
+            "ai_generated_image.png",
+            "image/png",
+            )
 
 main()
