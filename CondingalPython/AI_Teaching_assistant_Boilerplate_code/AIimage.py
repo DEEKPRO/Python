@@ -45,7 +45,7 @@ def enhance_prompt(raw: str) -> str:
 def gen_image(prompt:str):
     filter_result = check_prompt_with_filter_api(prompt)
     if not filter_result.get("ok"):
-        return None, f"Prompt blocked by safety filter. {filter_result.get{'reason', 'unsafe', 'prompt'}}"
+        return None, f"Prompt blocked by safety filter. {filter_result.get('reason', 'unsafe', 'prompt')}"
     try:
         return img_client.text_to_image(prompt=prompt, model=MODEL_ID), None
     except Exception as e2:
