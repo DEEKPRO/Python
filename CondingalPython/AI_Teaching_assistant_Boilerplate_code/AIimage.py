@@ -6,7 +6,7 @@ from huggingface_hub import InferenceClient
 import config
 
 MODEL_ID = "stabilityai/stable-diffusion-xl-base-1.0"
-FILTER_API_URL = "https://filters-zeta.vercel.app/filter"
+FILTER_API_URL = "https://filters-zeta.vercel.app/api/filter"
 
 ENHANCE_SYS = (
     "Improve prompts for text-to-image. Return ONLY the enhanced prompt. "
@@ -47,15 +47,20 @@ def gen_image(prompt:str):
     if not filter_result.get("ok"):
         return None, f"Prompt blocked by safety filter. {filter_result.get('reason', 'unsafe', 'prompt')}"
     try:
-        return img_client.text_to_image(prompt=prompt, model=MODEL_ID), None
+        return img_client.text_to_image(prompt=prompt,negative_prompt=NEGATIVE, model=MODEL_ID), None
     except Exception as e2:
         msg = str(e2)
-    
-    if any(x in msg for x in ["402", "Payment Required", "pre-paid credits"]):
-        return None, "Image backend requires credits or model not available on hf-inference.\n\nRaw error: "+msg
-    if "404" in msg or "Not found" in msg:
-        return None, "Model not served on this provider route (hf-inference).\n\nRaw error: "+msg
-    return None, "Error during image generation: "+msg
+        if "negative_prompt" in msg or "unexpected keyword" in msg:
+            try:
+                return img_client.text_to_image(prompt=prompt, model=MODEL_ID,), None
+            except Exception as e2:
+                msg = str(e2)
+
+        if any(x in msg for x in ["402", "Payment Required", "pre-paid credits"]):
+            return None, "Image backend requires credits or model not available on hf-inference.\n\nRaw error: "+msg
+        if "404" in msg or "Not found" in msg:
+            return None, "Model not served on this provider route (hf-inference).\n\nRaw error: "+msg
+        return None, "Error during image generation: "+msg
 
 def main():
     st.set_page_config(page_title="Safe AI Image Generator", layout="centered")
@@ -72,55 +77,55 @@ def main():
         placeholder="Example: A cozy cabin in snowy mountains at sunrise, cinematic lighting",
         )
 
-    submit = st.form_submit_button("Generate Image")
+        submit = st.form_submit_button("Generate Image")
 
     if submit:
 
         raw = raw.strip()
 
-    if not raw:
+        if not raw:
 
-        st.warning("⚠️ Please enter an image description.")
+            st.warning("⚠️ Please enter an image description.")
 
-        return
+            return
 
-    raw_check = check_prompt_with_filter_api(raw)
+        raw_check = check_prompt_with_filter_api(raw)
 
-    if not raw_check.get("ok"):
+        if not raw_check.get("ok"):
 
-        st.error(f"⚠️ Prompt blocked. {raw_check.get('reason', 'Unsafe prompt')}")
+            st.error(f"⚠️ Prompt blocked. {raw_check.get('reason', 'Unsafe prompt')}")
 
-        return
+            return
 
-    with st.spinner("Enhancing your prompt..."):
+        with st.spinner("Enhancing your prompt..."):
 
-        final_prompt = enhance_prompt(raw)
+            final_prompt = enhance_prompt(raw)
 
         enhanced_check = check_prompt_with_filter_api(final_prompt)
 
-    if not enhanced_check.get("ok"):
+        if not enhanced_check.get("ok"):
 
-        st.error(f"⚠️ Enhanced prompt blocked. {enhanced_check.get('reason', 'Unsafe prompt')}")
+            st.error(f"⚠️ Enhanced prompt blocked. {enhanced_check.get('reason', 'Unsafe prompt')}")
 
-        return
+            return
 
-    st.markdown("#### Enhanced Prompt")
+        st.markdown("#### Enhanced Prompt")
 
-    st.code(final_prompt)
+        st.code(final_prompt)
 
-    with st.spinner("Generating image..."):
+        with st.spinner("Generating image..."):
 
-        img, err = gen_image(final_prompt)
+            img, err = gen_image(final_prompt)
 
         if err:
 
             st.error(err)
 
-        return
+            return
 
-    st.image(img, caption="Generated Image", use_container_width=True)
+        st.image(img, caption="Generated Image", use_container_width=True)
 
-    st.session_state.generated_image = img
+        st.session_state.generated_image = img
 
     img = st.session_state.get("generated_image")
 
