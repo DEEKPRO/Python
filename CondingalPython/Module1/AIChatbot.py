@@ -10,4 +10,4 @@ elif mood == "bad":
 else:
     print("I see. Sometimes it is hard to put feelings into words.")
 
-print("It was nice chatting with you, {name}. See you!")
+print(f"It was nice chatting with you, {name}. See you!")

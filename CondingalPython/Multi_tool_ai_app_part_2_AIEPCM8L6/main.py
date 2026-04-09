@@ -163,12 +163,6 @@ def run_safe_ai_image_generator():
             "image/png"
         )
 
-
-
-
-
-
-
 def main():
     st.sidebar.title("Choose AI Feature")
     opt = st.sidebar.selectbox("", ["AI Teaching Assistant", "Math Mastermind", "Safe AI Image Generator"])
