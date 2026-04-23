@@ -8,4 +8,3 @@ if f<s:
     print('The answer is', s/f)
 else:
     print('The answer is', f/s)
-
