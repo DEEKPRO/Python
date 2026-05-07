@@ -1,0 +1,12 @@
+emp = ()
+inte = (1,2,3,4,5,6,7,8,9,0)
+mix = (1, "Done", "why", 4, True, 1.2340294)
+nest = ((1,2,3,4,5), ("a","b","c"), (True, False, True, False))
+rad = ("Ok", [1,2,3,4,"a","b","c"], ("x", "y", "z", True))
+print(emp)
+print(inte[0],inte[-1])
+print(mix[0],mix[-1])
+print(nest[0],nest[-1])
+print(rad[1][4], rad[2][2])
+for i in nest:
+    print(i)
