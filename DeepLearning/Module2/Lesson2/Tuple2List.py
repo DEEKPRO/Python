@@ -1,0 +1,5 @@
+tup = (1,2,3,4,5,6,7,8,9)
+lis = list(tup)
+print(lis)
+lis.append(10)
+print(lis)
