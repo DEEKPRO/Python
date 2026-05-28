@@ -1,0 +1,8 @@
+file = open("C:\Deekshith\DeekPython\Python\DeepLearning\Module3\Lesson2\sile.txt", "r")
+print(file.read())
+file.close()
+file = open("C:\Deekshith\DeekPython\Python\DeepLearning\Module3\Lesson2\sile.txt", "r")
+print("\n\n", file.read(8))
+file.close()
+file = open("C:\Deekshith\DeekPython\Python\DeepLearning\Module3\Lesson2\sile.txt", "a")
+file.writelines("\nName: Deek\nAge: 13")
