@@ -1,3 +1,7 @@
 You have slowed down to 100kmph.
 You have evaporated into fine atoms.
 You have survived because Thanos snapped his fingers.
+This is good.
+This is not good.
+This is bad.
+This is not bad.
