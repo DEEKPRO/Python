@@ -32,9 +32,9 @@ def topwin():
     window.configure(bg="cornflowerblue")
     text = Label(master=window, text="Enter your number below👇")
     ent = Entry(master=window)
-    t1 = Entry(master=window)
-    t2 = Entry(master=window)
-    t3 = Entry(master=window)
+    t1 = Entry(master=window, state="normal")
+    t2 = Entry(master=window, state="normal")
+    t3 = Entry(master=window, state="normal")
     
     #Calculator
     def calculator():
