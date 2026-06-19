@@ -1,0 +1,5 @@
+In this assignment, you will build a Running Lap Tracker using Python. 
+They will solve one running points problem in three different ways: using a formula, 
+using a loop, and using a nested loop. 
+Students will write simple pseudocode, compare time complexity and space complexity, 
+count the number of steps, and identify which algorithm is most efficient.
