@@ -38,3 +38,46 @@ for i in range(len(student_names)):
             pass
 print(f"Pair Comparison: {target_student} found at index {i}. This is equal to n^2 in the worst case.")
 print(f"Pair Comparison: {target_student} found after {steps} steps.")
+
+#For the next three sections, linear search will be uesd as an example.
+
+#Big O
+print("Big O Notation:")
+target_student = "Judy"
+steps = 0
+for i in range(len(student_names)):
+    steps += 1
+    if target_student == student_names[i]:
+        break
+print(f"Big O: {target_student} found after {steps} steps. This is O(n) in the worst case.")
+
+#Omega
+print("Omega Notation:")
+target_student = "Alice"
+steps = 0
+for i in range(len(student_names)):
+    steps += 1
+    if target_student == student_names[i]:
+        break
+print(f"Omega: {target_student} found after {steps} steps. This is Omega(1) in the best case.")
+
+#Theta
+print("Theta Notation:")
+target_student = "Eve"
+steps = 0
+for i in range(len(student_names)):
+    steps += 1
+    if target_student == student_names[i]:
+        break
+print(f"Theta: {target_student} found after {steps} steps. This is Theta(n) in the average case.")
+
+#Summary
+print("Summary:")
+print("Direct Access: O(1) - Always 1 step.")
+print("Linear Search: O(n) - Always n steps in the worst case.")
+print("Pair Comparison: O(n^2) - Always n^2 steps in the worst case.")
+print("\n")
+print("Big O: O(n) - Worst case for linear search.")
+print("Omega: Omega(1) - Best case for linear search.") 
+print("Theta: Theta(n) - Average case for linear search.")
+print("\nEND OF QUIZ")
